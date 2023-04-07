@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bvhome"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Home"/>
+
+    <item
+        android:id="@+id/bvScanner"
+        android:icon="@drawable/baseline_analytics_24"
+        android:title="Analatyics"/>
+
+    <item
+        android:id="@+id/placeholder"
+        android:title="Scanner"/>
+
+    <item
+        android:id="@+id/bvGreenhouse"
+        android:icon="@drawable/outline_energy_savings_leaf_24"
+        android:title="Greenhouse"/>
+    <item
+        android:id="@+id/bvProfile"
+        android:icon="@drawable/baseline_person_outline_24"
+        android:title="Profile"/>
+
+
+
+</menu>

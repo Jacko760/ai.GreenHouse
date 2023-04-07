@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/creamwallpaper"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".GoogleLensActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/ww"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="20dp"
+        app:cardCornerRadius="25dp"
+        android:clipToPadding="true"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="TODO"
+            android:scaleType="centerInside"
+            />
+
+        <ImageView
+            android:id="@+id/uppl"
+            android:layout_width="30dp"
+            android:layout_height="80dp"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:visibility="visible"
+            android:src="@drawable/baseline_cloud_upload_24"/>
+    </androidx.cardview.widget.CardView>
+    <LinearLayout
+        android:id="@+id/idLLButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ww"
+        android:weightSum="2"
+        android:layout_margin="20dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/ivOpenCamera"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_camera"
+            />
+
+        <ImageButton
+            android:id="@+id/ivGetResult"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/iv_search"
+             />
+
+    </LinearLayout>
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/idRVSearchResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_alignParentBottom="true"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_below="@id/idLLButtons" />
+
+</RelativeLayout>
