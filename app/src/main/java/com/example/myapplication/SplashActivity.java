@@ -29,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i =new Intent(SplashActivity.this,SampleMLActivity.class);
+                Intent i =new Intent(SplashActivity.this, GoogleLensActivity.class);
                 startActivity(i);
 
             }
