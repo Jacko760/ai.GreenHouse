@@ -1,17 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:layout_marginHorizontal="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
     tools:context=".ScannerFragment">
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_gravity="top"/>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarScanner"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -33,13 +39,153 @@
             android:layout_marginRight="10dp"
             />
     </androidx.appcompat.widget.Toolbar>
-    <TextView
-        android:layout_width="match_parent"
-        android:id="@+id/tvblack"
-        android:layout_height="match_parent"
-        android:textColor="@color/white"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:text="@string/hello_blank_fragment" />
+<androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/btnInsight"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/toolbarScanner"
+    android:layout_marginHorizontal="20dp"
+    android:layout_width="match_parent"
+    android:layout_margin="20dp"
+    android:background="@color/white"
+    android:fontFamily="@font/mate"
+    android:drawableStart="@drawable/twotone_insights_24"
+    android:text="Click here to view insights"
+    android:layout_height="wrap_content"/>
 
-</FrameLayout>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/currentHumid"
+        android:layout_width="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnInsight"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="35dp"
+        android:layout_marginTop="30dp"
+        app:cardCornerRadius="5dp"
+        android:elevation="5dp">
+
+        <TextView
+            android:id="@+id/tvcurrenthumid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/gray"
+            android:fontFamily="@font/mate"
+            android:textSize="20sp"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/currenttemprature"
+        android:layout_width="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentHumid"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="35dp"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="5dp"
+        android:elevation="5dp">
+
+        <TextView
+            android:id="@+id/tvcurrenttemprature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:fontFamily="@font/mate"
+            android:textSize="20sp"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/currentmoisture"
+        android:layout_width="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currenttemprature"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="35dp"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="5dp"
+        android:elevation="5dp">
+
+        <TextView
+            android:id="@+id/tvcurrentmoisture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/back"
+            android:fontFamily="@font/mate"
+            android:textSize="20sp"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/rawmoisture"
+        android:layout_width="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/currentmoisture"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="35dp"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="5dp"
+        android:elevation="5dp">
+
+        <TextView
+            android:id="@+id/tvrawmoisture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:fontFamily="@font/mate"
+            android:textSize="20sp"
+            />
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/triggerlevel"
+        android:layout_width="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rawmoisture"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="35dp"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="5dp"
+        android:elevation="5dp">
+
+        <TextView
+            android:id="@+id/tvtriggerlevel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:fontFamily="@font/mate"
+            android:textSize="20sp"
+            />
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/pumpstatus"
+        android:layout_width="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/triggerlevel"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="35dp"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="5dp"
+
+        android:elevation="5dp">
+
+        <TextView
+            android:id="@+id/tvpumpstatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:fontFamily="@font/mate"
+            android:textSize="20sp"
+            android:textColor="@color/back"
+            />
+
+    </androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

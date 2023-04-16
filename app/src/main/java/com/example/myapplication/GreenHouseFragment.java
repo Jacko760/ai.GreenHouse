@@ -29,7 +29,7 @@ public class GreenHouseFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_analtyics, container, false);
+        View view = inflater.inflate(R.layout.fragment_green_house, container, false);
         ImageButton imageButton = view.findViewById(R.id.ibLogout);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();

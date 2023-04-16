@@ -71,17 +71,13 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textStyle="bold"
         android:layout_below="@id/idLLButtons"
+        android:textAlignment="center"
+        android:fontFamily="@font/merienda"
+        android:textColor="@color/black"
+        android:textSize="25sp"
         android:layout_marginTop="@dimen/margin_default"/>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/idRVSearchResults"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_alignParentBottom="true"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:layout_below="@id/idLLButtons"
-        android:visibility="gone"/>
+
 
 </RelativeLayout>

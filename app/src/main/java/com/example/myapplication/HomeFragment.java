@@ -44,8 +44,8 @@ private static final  String CHANNEL_ID="Plant pal";
         TextView textView=view.findViewById(R.id.tvHome);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-        textView.setText(" Welcome , " + "" +
-                user.getEmail()  );
+//        textView.setText(" Welcome , " + "" +
+//                user.getEmail()  );
         Drawable drawable = ResourcesCompat.getDrawable(getResources(),R.drawable.house,null);
         BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
         Bitmap largeIcon = bitmapDrawable.getBitmap();
@@ -61,13 +61,13 @@ private static final  String CHANNEL_ID="Plant pal";
                                             .setSubText("Welcome to PlantPal")
                     .setChannelId(CHANNEL_ID)
                                                     .build();
-             nm.createNotificationChannel(new NotificationChannel(CHANNEL_ID,"Plantpal",NotificationManager.IMPORTANCE_HIGH));
+             nm.createNotificationChannel(new NotificationChannel(CHANNEL_ID,"Phytech",NotificationManager.IMPORTANCE_HIGH));
         }else{
             notification = new Notification.Builder(getContext())
                     .setLargeIcon(largeIcon)
                     .setSmallIcon(R.drawable.house)
-                    .setContentText("New Message")
-                    .setSubText("Hey Welcome to Plantpal")
+                    .setContentText(" Welcome to Plantpal")
+                    .setSubText("New Message")
                     .build();
         }
         // i can notify wherver i want to or when its needed
@@ -90,8 +90,6 @@ private static final  String CHANNEL_ID="Plant pal";
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_USER_ACTION);
                         startActivity(intent);
                         getActivity().finish();
-
-
                     }
                 });
                 alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {

@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
@@ -35,13 +36,15 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etEmail , etPassword;
     private static final int RC_SIGN_IN = 1;
     private static final String TAG = "GOOGLEAUTH";
+    private String errorCode ;
     GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
+
+    private FirebaseAuthException firebaseAuthException;
     Dialog dialog;
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             Intent i = new Intent(LoginActivity.this,BottomNavActivity.class);
@@ -59,9 +62,6 @@ public class LoginActivity extends AppCompatActivity {
         tvRegister = findViewById(R.id.vb);
         etEmail = findViewById(R.id.jk);
         etPassword = findViewById(R.id.et_password);
-
-        // code for connecting backend
-
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -72,7 +72,6 @@ public class LoginActivity extends AppCompatActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_wait1);
         dialog.setCanceledOnTouchOutside(false);
-
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,31 +92,17 @@ public class LoginActivity extends AppCompatActivity {
                                         finish();
 
                                     } else {
-                                        // If sign in fails, display a message to the user.
-
-                                        Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
-
+                                        //Toast.makeText(LoginActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
-
-
-
                 }
                 else {
                         Toast.makeText(LoginActivity.this, "Please enter both username and password!", Toast.LENGTH_SHORT).show();
 
                 }
-
-
-
             }
         });
-
-
-
-
 
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,20 +130,18 @@ public class LoginActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+
         if (requestCode == RC_SIGN_IN) {
             dialog.show();
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                // Google Sign In was successful, authenticate with Firebase
+
                 GoogleSignInAccount account = (GoogleSignInAccount) ((Task<?>) task).getResult(ApiException.class);
                 //Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
                 dialog.dismiss();
-                // ...
             }
         }
     }
@@ -172,26 +155,18 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
                             Intent i = new Intent(LoginActivity.this, BottomNavActivity.class);
                             startActivity(i);
                             finish();
                             dialog.dismiss();
-                            //  updateUI(user);
+
                         } else {
-                            // If sign in fails, display a message to the user.
-                            //  Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            //  Snackbar.make(mBinding.mainLayout, "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-                            // updateUI(null);
                             dialog.dismiss();
                             Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                         }
-
-                        // ...
                     }
                 });
-
     }
 }
 
