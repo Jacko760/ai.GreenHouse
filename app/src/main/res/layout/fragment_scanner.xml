@@ -1,191 +1,380 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="10dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/common_google_signin_btn_icon_light_normal_background"
-    tools:context=".ScannerFragment">
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_gravity="top"/>
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarScanner"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/mate"
-            android:textSize="25sp"
-            android:text="Analtyics"/>
-        <ImageButton
-            android:id="@+id/ibLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/bcc"
-            android:src="@drawable/round_login_24"
-            android:layout_gravity="right"
-            android:layout_marginRight="10dp"
-            />
-    </androidx.appcompat.widget.Toolbar>
-<androidx.appcompat.widget.AppCompatButton
-    android:id="@+id/btnInsight"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/toolbarScanner"
-    android:layout_marginHorizontal="20dp"
     android:layout_width="match_parent"
-    android:layout_margin="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="5dp"
     android:background="@color/white"
-    android:fontFamily="@font/mate"
-    android:drawableStart="@drawable/twotone_insights_24"
-    android:text="Click here to view insights"
-    android:layout_height="wrap_content"/>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/currentHumid"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/ivLogo"
+        android:layout_width="64dp"
+        android:layout_marginLeft="10dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/appbarlogo"
+        android:contentDescription="TODO" />
+
+    <ImageButton
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/ibLogout"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:src="@drawable/powerblack"
+
+        android:contentDescription="TODO" />
+
+    <!--<Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toTopOf="@id/cardviewlinear"
+        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintLeft_toRightOf="@+id/ivLogo"
+        app:layout_constraintRight_toLeftOf="@id/ibLogout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.44">
+
+    </Spinner>
+            <TextView
+                android:id="@+id/tvdate"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinner"
+                app:layout_constraintBottom_toTopOf="@+id/cardviewlinear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textAlignment="center"
+                android:fontFamily="sans-serif"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textDirection="firstStrong"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/bcc"/>-->
+
+
+    <LinearLayout
+        android:id="@+id/cardviewlinear"
+        app:layout_constraintTop_toBottomOf="@id/ivLogo"
         android:layout_width="match_parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnInsight"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="35dp"
-        android:layout_marginTop="30dp"
-        app:cardCornerRadius="5dp"
-        android:elevation="5dp">
+        android:layout_margin="10dp"
+        android:weightSum="3"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvcurrenthumid"
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:layout_margin="5dp"
+            app:cardCornerRadius="20dp"
+            android:layout_weight="1"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:weightSum="2"
+              >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/livvic_semibold"
+                    android:layout_margin="10dp"
+                    android:textSize="16sp"
+                    android:layout_gravity=""
+                    android:text="Moisture"
+                    android:textColor="#59C1E2" />
+                <TextView
+                    android:id="@+id/tvmoisture"
+                    android:layout_width="75dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/livvic_semibold"
+                    android:layout_margin="10dp"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:background="@drawable/circle"
+                    android:textColor="#59C1E2" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:layout_margin="5dp"
+            app:cardCornerRadius="20dp"
+            android:layout_weight="1"
+             >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:weightSum="2"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/livvic_semibold"
+                    android:layout_margin="10dp"
+                    android:textSize="16sp"
+                    android:layout_gravity=""
+                    android:text="Temprature"
+                    android:textColor="#E98181" />
+                <TextView
+                    android:id="@+id/tvtemprature"
+                    android:layout_width="75dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/livvic_semibold"
+                    android:layout_margin="10dp"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:background="@drawable/circle1"
+                    android:textColor="#E98181" />
+
+            </LinearLayout>
+
+
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="20dp"
+            android:background="#ffdbff3d" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:weightSum="2"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/livvic_semibold"
+                    android:layout_margin="10dp"
+                    android:textSize="16sp"
+                    android:layout_gravity=""
+                    android:text="Humidity"
+                    android:textColor="#F1BD8E" />
+                <TextView
+                    android:id="@+id/tvhumidity"
+                    android:layout_width="75dp"
+                    android:layout_height="70dp"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/livvic_semibold"
+                    android:layout_margin="10dp"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:background="@drawable/circle2"
+                    android:textColor="#F1BD8E" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardpumpstatus"
+        app:layout_constraintTop_toBottomOf="@id/cardviewlinear"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="155dp"
+        android:layout_margin="30dp"
+        app:cardCornerRadius="20dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textColor="@color/gray"
-            android:fontFamily="@font/mate"
-            android:textSize="20sp"
-            />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:weightSum="1"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/livvic_semibold"
+                android:layout_margin="10dp"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:text="Pump Status"
+                android:textColor="#50895D" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tvpumpoff"
+                android:layout_width="75dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/livvic_semibold"
+                android:layout_margin="10dp"
+                android:textSize="16sp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:background="@drawable/pumpstatus"
+                android:textColor="#F1BD8E" />
+                <TextView
+                    android:id="@+id/tvpumpon"
+                    android:layout_width="75dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/livvic_semibold"
+                    android:layout_margin="10dp"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:background="@drawable/pumpstatus1"
+                    android:textColor="#F1BD8E" />
+            </LinearLayout>
+
+        </LinearLayout>
+
 
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/currenttemprature"
-        android:layout_width="match_parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentHumid"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="35dp"
-        android:layout_marginTop="10dp"
-        app:cardCornerRadius="5dp"
-        android:elevation="5dp">
+        android:id="@+id/cardseekbar"
+        app:layout_constraintTop_toBottomOf="@id/cardviewlinear"
+        app:layout_constraintLeft_toRightOf="@id/cardpumpstatus"
+        android:layout_width="155dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="30dp"
+        app:cardCornerRadius="20dp"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvcurrenttemprature"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:fontFamily="@font/mate"
-            android:textSize="20sp"
-            />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:weightSum="3"
+            >
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/livvic_semibold"
+                android:layout_margin="10dp"
+                android:textSize="16sp"
+                android:layout_gravity=""
+                android:text="Trigger Level"
+                android:textColor="#50895D" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:id="@+id/tvtriggerlevel"
+                    android:layout_width="33dp"
+                    android:layout_height="39dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/livvic_semibold"
+                    android:layout_margin="10dp"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textColor="#4E8672" />
+                <TextView
+                    android:id="@+id/tvtriggerupda"
+                    android:layout_width="33dp"
+                    android:layout_height="39dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/livvic_semibold"
+                    android:layout_margin="10dp"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textAlignment="center"
+                    android:textColor="#4E8672" />
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tvseeklevelupdat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/livvic_semibold"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="#4E8672"
+                android:textSize="12sp" />
+            <SeekBar
+                android:layout_marginBottom="20dp"
+                android:id="@+id/seekbar"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:max="100"
+                android:progress="0"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:thumbTint="#70CBAA"
+                android:progressTint="#4E8672"
+                android:progressBackgroundTint="#4E8672"
+                />
+
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
-
     <androidx.cardview.widget.CardView
-        android:id="@+id/currentmoisture"
-        android:layout_width="match_parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currenttemprature"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="35dp"
-        android:layout_marginTop="10dp"
-        app:cardCornerRadius="5dp"
-        android:elevation="5dp">
-
-        <TextView
-            android:id="@+id/tvcurrentmoisture"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textColor="@color/back"
-            android:fontFamily="@font/mate"
-            android:textSize="20sp"
-            />
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/rawmoisture"
+        app:layout_constraintRight_toRightOf="parent"
+        app:cardCornerRadius="15dp"
+        android:layout_marginBottom="60dp"
+        android:elevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardseekbar"
         android:layout_width="match_parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentmoisture"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="35dp"
-        android:layout_marginTop="10dp"
-        app:cardCornerRadius="5dp"
-        android:elevation="5dp">
-
-        <TextView
-            android:id="@+id/tvrawmoisture"
+        android:layout_height="200dp">
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/linechart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:fontFamily="@font/mate"
-            android:textSize="20sp"
-            />
-
+            android:layout_height="match_parent"/>
     </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:id="@+id/triggerlevel"
-        android:layout_width="match_parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rawmoisture"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="35dp"
-        android:layout_marginTop="10dp"
-        app:cardCornerRadius="5dp"
-        android:elevation="5dp">
-
-        <TextView
-            android:id="@+id/tvtriggerlevel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:fontFamily="@font/mate"
-            android:textSize="20sp"
-            />
-
-    </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:id="@+id/pumpstatus"
-        android:layout_width="match_parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/triggerlevel"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="35dp"
-        android:layout_marginTop="10dp"
-        app:cardCornerRadius="5dp"
-
-        android:elevation="5dp">
-
-        <TextView
-            android:id="@+id/tvpumpstatus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:fontFamily="@font/mate"
-            android:textSize="20sp"
-            android:textColor="@color/back"
-            />
-
-    </androidx.cardview.widget.CardView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+

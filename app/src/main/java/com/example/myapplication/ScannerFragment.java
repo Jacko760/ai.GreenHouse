@@ -1,10 +1,17 @@
 package com.example.myapplication;
 
+import static android.app.Activity.RESULT_OK;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,12 +19,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.ButtonBarLayout;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import android.view.LayoutInflater;
@@ -29,67 +42,138 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.animation.Easing;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-
-import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 public class ScannerFragment extends Fragment {
     FirebaseAuth auth;
-    FirebaseUser user ;
+    FirebaseUser user;
     AlertDialog.Builder alertDialog;
-    Button button;
-    private  String  clientId = "place your client id";
-    private String clientSecret = "place your client secret";
-    Response response = null;
-    private String responseiot;
-    private String output;
-    String current_humid ,current_temprature,current_moisture,raw_moisture,trigger_level,pump_status;
-    String url;
-    String Url;
-    TextView currenthumid,currenttemprature,currentmoisture,rawmoisture,triggerlevel,pumpstatus;
-
     Dialog dialog;
-
-
-
-
+    SeekBar seekbar;
+    String Date;
+    TextView triggerlevel, seektriggerlevel, triggerlevelupd;
+    final int maxValue = 100;
+     int interval = maxValue / 5;
+    int adjustedProgress,Progress ;
+    TextView Moisture, Temprature, Humidity, Pumpstatusoff, Pumpstatuson, date;
+    Spinner spinner;
+    ImageButton imageButton;
+    private Handler handler;
+    String pump_trigger, pump_status, update_trigger;
+    String formattedDate;
+    DatabaseReference databaseRef;
+    DatabaseReference database;
+    LineChart mplinechart;
+    LineDataSet lineDataSet1=new LineDataSet(dataValue1(),"Moisture");
+    LineDataSet lineDataSet2=new LineDataSet(dataValue2(),"Moisture");
+    ArrayList<ILineDataSet>dataSets=new ArrayList<>();
+    LineData lineData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_scanner, container, false);
-        ImageButton imageButton =view.findViewById(R.id.ibLogout);
-        currenthumid=view.findViewById(R.id.tvcurrenthumid);
-        currenttemprature=view.findViewById(R.id.tvcurrenttemprature);
-        currentmoisture=view.findViewById(R.id.tvcurrentmoisture);
-        rawmoisture=view.findViewById(R.id.tvrawmoisture);
-        triggerlevel=view.findViewById(R.id.tvtriggerlevel);
-        pumpstatus=view.findViewById(R.id.tvpumpstatus);
-        dialog = new Dialog(getActivity());
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_wait1);
-        dialog.setCanceledOnTouchOutside(false);
-
-        button=view.findViewById(R.id.btnInsight);
+        View view = inflater.inflate(R.layout.fragment_scanner, container, false);
+        imageButton = view.findViewById(R.id.ibLogout);
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
+        seekbar = view.findViewById(R.id.seekbar);
+        triggerlevel = view.findViewById(R.id.tvtriggerlevel);
+        Moisture = view.findViewById(R.id.tvmoisture);
+        Temprature = view.findViewById(R.id.tvtemprature);
+        Humidity = view.findViewById(R.id.tvhumidity);
+        Pumpstatusoff = view.findViewById(R.id.tvpumpoff);
+        Pumpstatuson = view.findViewById(R.id.tvpumpon);
+       /* spinner = view.findViewById(R.id.spinner);*/
+        seektriggerlevel = view.findViewById(R.id.tvseeklevelupdat);
+        triggerlevelupd = view.findViewById(R.id.tvtriggerupda);
+       /* date = view.findViewById(R.id.tvdate);*/
+        handler = new Handler();
+
+        ///chart
+        mplinechart=view.findViewById(R.id.linechart);
+        lineDataSet2.setDrawValues(false);
+        int color = ContextCompat.getColor(getContext(), R.color.black);
+        lineDataSet2.setColor(color);
+        dataSets.add(lineDataSet1);
+        dataSets.add(lineDataSet2);
+        LineData data = new LineData(dataSets);
+        mplinechart.setDrawGridBackground(true);
+        mplinechart.setDrawBorders(true);
+        lineDataSet1.setColor(R.color.purple_700);
+        /*lineDataSet1.setLineWidth(4);
+        lineDataSet2.setLineWidth(4);
+        lineDataSet1.setCircleRadius(3);
+        lineDataSet2.setCircleRadius(3);*/
+        lineDataSet2.setDrawFilled(true);
+        if (Utils.getSDKInt() >= 18) {
+            // fill drawable only supported on api level 18 and above
+            Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.blackgradient);
+            lineDataSet2.setFillDrawable(drawable);
+        }
+        else {
+            lineDataSet2.setFillColor(Color.BLACK);
+        }
+        Description description = new Description();
+        description.setText("Moisture Log");
+        description.setTextColor(R.color.white);
+        description.setTextSize(14);
+        description.setTextAlign(Paint.Align.RIGHT);
+        mplinechart.animateXY(2000,2000, Easing.EaseInOutSine,Easing.EaseInOutSine);
+        mplinechart.setDescription(description);
+
+            mplinechart.setData(data);
+            mplinechart.getLegend().setEnabled(false);
+            mplinechart.invalidate();
+
+
+
+
+
+
+
+        ////method calls
+
+        /*Spinner();*/
+        onClicklistener();
+        Reterivedatafromfirebase();
+
+
+
+
+        return view;
+    }
+
+    public void onClicklistener() {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                alertDialog=new AlertDialog.Builder(getContext());
+                alertDialog = new AlertDialog.Builder(getContext());
                 alertDialog.setTitle("Log Out ");
                 alertDialog.setMessage("Are you sure want to logout ?").setCancelable(false);
                 alertDialog.setIcon(R.drawable.baseline_exit_to_app_24);
@@ -97,8 +181,8 @@ public class ScannerFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         FirebaseAuth.getInstance().signOut();
-                        Intent intent = new Intent(getContext(),LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_NO_USER_ACTION);
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION);
                         startActivity(intent);
                         getActivity().finish();
                     }
@@ -113,150 +197,205 @@ public class ScannerFragment extends Fragment {
             }
 
         });
-        button.setOnClickListener(new View.OnClickListener() {
+
+    }
+
+    public void Reterivedatafromfirebase() {
+
+        databaseRef = FirebaseDatabase.getInstance().getReference("firebase-iot/live-data");
+
+        databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 try {
+                    String livedata = dataSnapshot.getValue().toString();
+                    JSONObject jsonObject = new JSONObject(livedata);
+                    String humidity = jsonObject.getString("humidity");
+                    String moisture = jsonObject.getString("moisture");
+                    String temprature = jsonObject.getString("temperature");
+                     /*Date = jsonObject.getString("date");*/
+                    pump_trigger = jsonObject.getString("pump_trigger");
+                    pump_status = jsonObject.getString("pump_status");
+                    update_trigger = jsonObject.getString("update_trigger");
+                    Humidity.setText(humidity + " " + "%");
+                    Moisture.setText(moisture + " " + "%");
+                    Temprature.setText(temprature + " " + "%");
+                    //triggerlevel.setText("Cur : " + pump_trigger);
 
-                    acessToken();
-                    dialog.show();
+                    if ("false".equals(pump_status)) {
+                        Pumpstatusoff.setBackgroundResource(R.drawable.pumpstatussss);
+                        Pumpstatuson.setBackgroundResource(R.drawable.pumpstatus1);
+                    } else {
+                        Pumpstatuson.setBackgroundResource(R.drawable.pumpstatuson);
+                        Pumpstatusoff.setBackgroundResource(R.drawable.pumpstatus);
 
+                    }
+                    String updatedtrigger = String.valueOf(Progress);
+                    if (!updatedtrigger.equals(pump_trigger)) {
+                        databaseRef.child("update_trigger").setValue(updatedtrigger);
+                        triggerlevelupd.setText("Upd :" + updatedtrigger);
+                        triggerlevel.setText("Cur :" + pump_trigger);
 
-
-                } catch (Exception e) {
+                    } else {
+                        triggerlevel.setText("Cur :" + pump_trigger);
+                    }
+                } catch (JSONException e) {
                     e.printStackTrace();
+
                 }
-                /*currenthumid.setVisibility(View.VISIBLE);
-                currenttemprature.setVisibility(View.VISIBLE);
-                currentmoisture.setVisibility(View.VISIBLE);
-                rawmoisture.setVisibility(View.VISIBLE);
-                triggerlevel.setVisibility(View.VISIBLE);
-                pumpstatus.setVisibility(View.VISIBLE);*/
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Seekbar();
+                        /*changedate();*/
+                    }
+                });
 
             }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "Failed to read value.", error.toException());
+                Toast.makeText(getContext(), "Connect to internet and try again", Toast.LENGTH_SHORT).show();
+            }
         });
-         return view;
-}
-        public void acessToken() throws Exception {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    OkHttpClient client = new OkHttpClient();
-                    url = "https://api2.arduino.cc/iot/v1/clients/token";
-                    RequestBody requestBody = new FormBody.Builder()
-                            .add("grant_type", "client_credentials")
-                            .add("client_id", clientId)
-                            .add("client_secret", clientSecret)
-                            .add("audience", "https://api2.arduino.cc/iot")
-                            .build();
-                    Request request = new Request.Builder()
-                            .url(url)
-                            .header("content-type", "application/x-www-form-urlencoded")
-                            .post(requestBody)
-                            .build();
-                    try {
-                        response = client.newCall(request).execute();
-                        String res = response.body().string();
-                        JSONObject jsonObject = new JSONObject(res);
-                        output=jsonObject.getString("access_token");
-                    } catch (IOException | JSONException e) {
-                        e.printStackTrace();
-                        Log.d(TAG, "run: ",e);
-                        //throw new RuntimeException(e);
-                    }
-                    if (!response.isSuccessful()){
-                        Log.d(TAG, "No: response :"+response.code());
-                       getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //Toast.makeText(ScannerFragment.this, "Error", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }else {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    iotProperties();
-                                } catch (Exception e) {
-                                    throw new RuntimeException(e);
-                                }
-                                Log.d(TAG, "run: response :" + response.code());
-                                //Toast.makeText(MainActivity.this, "Got the token" , Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                }
-            }).start();
-        }
-        public void iotProperties() throws Exception{
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-
-                    OkHttpClient Client = new OkHttpClient();
-                    Url ="https://api2.arduino.cc/iot/v2/things/530e87a0-3767-4288-9aad-ea5f14107c6a/";
-                    RequestBody requestBody = RequestBody.create("", MediaType.parse("application/json; charset=utf-8"));
-                    Request request = new Request.Builder()
-                            .url(Url)
-                            .addHeader("Authorization", "Bearer "+ output)
-                            .post(requestBody)
-                            .build();
-                    try {
-                        response = Client.newCall(request).execute();
-                        responseiot = response.body().string();
-                        JSONObject jsonObject = new JSONObject(responseiot);
-                        JSONArray jsonArray=jsonObject.getJSONArray("properties");
-                        current_humid=jsonArray.getJSONObject(0).getString("last_value");
-                        current_temprature=jsonArray.getJSONObject(1).getString("last_value");
-                        current_moisture=jsonArray.getJSONObject(2).getString("last_value");
-                        raw_moisture=jsonArray.getJSONObject(3).getString("last_value");
-                        trigger_level=jsonArray.getJSONObject(4).getString("last_value");
-                        pump_status=jsonArray.getJSONObject(5).getString("last_value");
 
 
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        //throw new RuntimeException(e);
-                    }
-                    if(!response.isSuccessful()){
-                        Log.d(TAG, "No: response :"+response.code());
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //Toast.makeText(ScannerFragment.this, "Error", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+    }
 
-                    }
-                    else{
-                        getActivity().runOnUiThread(new Runnable() {
+   /* public void Spinner() {
+        List<String> Plantnames = new ArrayList<>();
+        Plantnames.add("Aloe vera ");
+        Plantnames.add("ZZ plant");
+        Plantnames.add("Snake plant ");
+        Plantnames.add("Money plant");
+        ArrayAdapter<String> plantAdapter = new ArrayAdapter<String>(this.getActivity(), android.R.layout.simple_spinner_item, Plantnames);
+        plantAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(plantAdapter);
 
-                            @Override
-                            public void run() {
-                                currenthumid.setText("current_hunmid "+":"+current_humid);
-                                currenttemprature.setText("current_temprature"+":"+current_temprature);
-                                currentmoisture.setText("current_moisture"+":"+current_moisture);
-                                rawmoisture.setText("raw_moisture"+":"+raw_moisture);
-                                triggerlevel.setText("Trigger_level"+":"+trigger_level);
-                                pumpstatus.setText("pump_status"+":"+pump_status);
-                                Log.d(TAG, "run: response :" + response.code());
-                                dialog.dismiss();
+    }*/
 
-                            }
-                        });
+    public void Seekbar() {
+       /*int trigger=Integer.parseInt(pump_trigger);
+       seekbar.setProgress(trigger);*/
 
-                    }
+        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Progress=progress;
+                seektriggerlevel.setText("Prog : " + String.valueOf(progress));
 
 
-                }
-            }).start();
-        }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                seektriggerlevel.setVisibility(View.GONE);
+                Reterivedatafromfirebase();
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                seektriggerlevel.setVisibility(View.VISIBLE);
+                Reterivedatafromfirebase();
+            }
+        });
 
 
 
     }
+  /*  public void changedate() {
+        String timestamp = Date;
+        long millis = Long.parseLong(timestamp);
+        Date datee = new Date(millis);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        formattedDate = sdf.format(datee);
+        date.setText(formattedDate);
+
+    }*/
+     private ArrayList<Entry> dataValue1(){
+        ArrayList<Entry>data=new ArrayList<Entry>();
+        data.add(new Entry(1,20));
+         data.add(new Entry(2,98));
+         data.add(new Entry(3,74));
+         data.add(new Entry(4,59));
+         data.add(new Entry(5,41));
+         data.add(new Entry(6,28));
+         data.add(new Entry(7,100));
+
+
+         return data;
+     }
+  private ArrayList<Entry> dataValue2() {
+      ArrayList<Entry> data = new ArrayList<Entry>();
+      data.add(new Entry(1, 30));
+      data.add(new Entry(2, 30));
+      data.add(new Entry(3, 30));
+      data.add(new Entry(4, 30));
+      data.add(new Entry(5, 30));
+      data.add(new Entry(6, 30));
+      data.add(new Entry(7, 30));
+
+
+      return data;
+  }
+ /*   public void ReteriveMoisture(){
+        database = FirebaseDatabase.getInstance().getReference("firebase-iot/past-data");
+        ArrayList<Entry> datavals = new ArrayList<Entry>();
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //String pastsata=snapshot.getValue().toString();
+                if(snapshot.hasChildren()) {
+                    for (DataSnapshot documentSnapshot : snapshot.getChildren()) {
+                        Long moisture = documentSnapshot.child("moisture").getValue(Long.class);
+                        Long temperature = documentSnapshot.child("temperature").getValue(Long.class);
+                        int moistureValue = (moisture != null) ? moisture.intValue() : 0;
+                        int temperatureValue = (temperature != null) ? temperature.intValue() : 0;
+                        DataPoint dataPoint = new DataPoint(moistureValue, temperatureValue);
+                        datavals.add(new Entry(dataPoint.getMoisture(), dataPoint.getTemperature()));
+                    }
+                    showChart(datavals);
+                }else{
+                    mplinechart.clear();
+                    mplinechart.invalidate();
+                }
+               *//* try {
+                    JSONObject jsonObject=new JSONObject(pastsata);
+                    String moisture = jsonObject.getString("moisture");
+                    String temprature = jsonObject.getString("temperature");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }*//*
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+
+
+        });
+    }*/
+
+   /* private void showChart(ArrayList<Entry> datavals) {
+      lineDataSet1.setValues(datavals);
+      lineDataSet1.setLabel("Moisture Log");
+      lineDataSet1.clear();
+      dataSets.clear();
+      dataSets.add(lineDataSet1);
+      lineData = new LineData(dataSets);
+      mplinechart.clear();
+      mplinechart.setData(lineData);
+      mplinechart.invalidate();
+
+
+    }*/
+
+
+}

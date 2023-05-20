@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/creamwallpaper"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/cameraback"
     tools:context=".GoogleLensActivity">
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/ww"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_margin="20dp"
+        android:layout_height="200dp"
+        android:layout_margin="30dp"
         app:cardCornerRadius="25dp"
         android:clipToPadding="true"
         android:layout_centerHorizontal="true">
@@ -19,7 +21,7 @@
         <ImageView
             android:id="@+id/ivSetImage"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:contentDescription="TODO"
@@ -32,8 +34,7 @@
             android:layout_height="80dp"
             android:scaleType="fitCenter"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:visibility="gone"
+            android:layout_marginTop="50dp"
             android:src="@drawable/baseline_cloud_upload_24"/>
     </androidx.cardview.widget.CardView>
     <LinearLayout
@@ -41,43 +42,89 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ww"
-        android:weightSum="2"
-        android:layout_margin="20dp"
-        android:orientation="horizontal">
+        android:weightSum="3"
+        android:layout_margin="30dp"
+        android:orientation="vertical">
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/ivOpenCamera"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="110dp"
+            android:background="@drawable/rounded_c"
             android:layout_weight="1"
-            android:src="@drawable/ic_camera"
+            android:text="Capture"
+            android:textAlignment="center"
+            android:drawablePadding="-32dp"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:drawableStart="@drawable/capture"
+            android:fontFamily="@font/merienda"
+            android:textColor="@color/bcc"
+            android:layout_marginRight="12dp"
             />
-
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/ivGetResult"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="110dp"
+            android:background="@drawable/rounded_c"
             android:layout_weight="1"
-            android:src="@drawable/iv_search"
+            android:text="Identify"
+            android:textAlignment="center"
+            android:drawablePadding="-32dp"
+            android:textSize="30sp"
+            android:layout_marginTop="30dp"
+            android:paddingRight="42dp"
+            android:textStyle="bold"
+            android:drawableStart="@drawable/identifyy"
+            android:fontFamily="@font/merienda"
+            android:textColor="@color/bcc"
+            android:layout_marginRight="12dp"
              />
-
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btndiagnose"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:background="@drawable/rounded_c"
+            android:layout_weight="1"
+            android:text="Diagnose"
+            android:textAlignment="center"
+            android:drawablePadding="-32dp"
+            android:textSize="35sp"
+            android:layout_marginTop="30dp"
+            android:textStyle="bold"
+            android:fontFamily="@font/merienda"
+            android:textAllCaps="false"
+            android:drawableStart="@drawable/diagnose"
+            android:textColor="@color/bcc"
+            android:layout_marginRight="12dp"
+            android:paddingRight="32dp"
+            />
     </LinearLayout>
 
-
-    <TextView
-        android:id="@+id/tvResult"
+  <!--<androidx.cardview.widget.CardView
+      android:id="@+id/cardviewSearch"
+      android:layout_width="match_parent"
+      android:layout_below="@id/idLLButtons"
+      android:layout_margin="20dp"
+      app:cardCornerRadius="20dp"
+      android:layout_height="wrap_content">
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searcView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textStyle="bold"
-        android:layout_below="@id/idLLButtons"
-        android:textAlignment="center"
-        android:fontFamily="@font/merienda"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:layout_marginTop="@dimen/margin_default"/>
+        android:layout_height="match_parent"
+        android:background="@color/yelloe"
+        app:queryHint="Type a Plant Name"
+        app:iconifiedByDefault="false"
 
+       />
 
-
-
+  </androidx.cardview.widget.CardView>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cardviewSearch"
+        android:visibility="gone"
+        android:padding="8dp"/>-->
 </RelativeLayout>
+

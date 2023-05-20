@@ -1,42 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/creamwallpaper"
-    tools:context=".GreenHouseFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#EFEAEA"
+    android:id="@+id/GreenHouseFragment"
+    tools:context=".GreenHouseFragment" xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- TODO: Update blank fragment layout -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbargreenhouse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" >
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/mate"
-        android:padding="10dp"
+        android:theme="?attr/actionBarTheme">
+        <ImageView
+            android:id="@+id/tvHome"
+            android:layout_width="64dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/appbarlogo"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:fontFamily="@font/merienda"
+            android:text="Welcome to your Greenhouse..."/>
 
-        android:textSize="25sp"
-        android:text="GreenHouse"/>
-    <ImageButton
-        android:id="@+id/ibLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/bcc"
-        android:src="@drawable/round_login_24"
-        android:layout_gravity="right"
-        android:layout_marginRight="10dp"
-        />
     </androidx.appcompat.widget.Toolbar>
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbargreenhouse"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp" />
+    <TextView
+        android:id="@+id/tvgetstarted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recyclerView"
+        android:text="Add a plant to get started . . ."
+        android:fontFamily="@font/merienda"
+        android:visibility="gone"
+        android:layout_marginLeft="80dp"
+        android:textColor="@color/black"
 
-</FrameLayout>
+        android:textSize="20sp"
+        android:gravity="center"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:id="@+id/btngetstarted"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="160dp"
+        android:text=" . . . "
+        android:textSize="10sp"
+        android:visibility="gone"
+
+        android:layout_marginTop="15dp"
+        android:drawableStart="@drawable/twotone_add_a_photo_24"
+        android:layout_below="@id/tvgetstarted"/>
+</RelativeLayout>

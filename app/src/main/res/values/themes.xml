@@ -27,7 +27,13 @@
         <!-- Customize your theme here. -->
     </style>
 
-
+    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+        <item name="colorPrimary">@color/bcc</item>
+        <item name="colorPrimaryDark">@color/back</item>
+        <item name="colorAccent">@color/gray</item>
+        <item name="android:statusBarColor">?attr/colorBackgroundFloating</item>
+    </style>
 
 
 
@@ -49,5 +55,10 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="background">@color/teal_200</item>
+    </style>
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 </resources>

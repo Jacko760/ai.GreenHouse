@@ -148,9 +148,12 @@
       android:alpha="1"
       android:fontFamily="@font/mate"
       android:padding="20dp"
+      android:layout_marginRight="-20dp"
+      app:layout_constraintRight_toLeftOf="@+id/tvSignin"
       android:text="Already have an account ?"
       android:textColor="@color/white"
       android:textSize="15sp"
+      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/btnGoogle"
       tools:ignore="MissingConstraints" />
@@ -163,7 +166,9 @@
       android:fontFamily="@font/mate"
       android:padding="20dp"
       android:text="Sign In"
+
       android:textColor="@color/yelloe"
+      app:layout_constraintBottom_toBottomOf="parent"
       android:textSize="15sp"
       app:layout_constraintRight_toRightOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/btnGoogle"

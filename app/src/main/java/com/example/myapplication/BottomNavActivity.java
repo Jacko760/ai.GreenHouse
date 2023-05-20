@@ -1,11 +1,21 @@
 package com.example.myapplication;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,9 +26,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.util.ArrayList;
+
 public class BottomNavActivity extends AppCompatActivity {
+
+    private static final String TAG = "BottomNavActivity";
     Toolbar toolbar;
     BottomNavigationView bottomNavigationView;
+
     HomeFragment homeFragment = new HomeFragment();
     ScannerFragment scannerFragment = new ScannerFragment();
 
@@ -33,11 +50,12 @@ public class BottomNavActivity extends AppCompatActivity {
         floatingActionButton=findViewById(R.id.fab);
         bottomNavigationView =findViewById(R.id.bottomNavigationView);
         getSupportFragmentManager().beginTransaction().replace(R.id.container,homeFragment).commit();
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(BottomNavActivity.this, GoogleLensActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(BottomNavActivity.this, GoogleLensActivity.class);
+                activityResultLauncher.launch(intent);
             }
         });
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -45,17 +63,21 @@ public class BottomNavActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.bvhome:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container,homeFragment).commit();
+
+                       getSupportFragmentManager().beginTransaction().replace(R.id.container,homeFragment).commit();
+
                         return true;
                     case R.id.bvScanner:
-
                         getSupportFragmentManager().beginTransaction().replace(R.id.container,scannerFragment).commit();
+
                         return true;
                     case R.id.bvGreenhouse:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container,greenHouseFragment).commit();
+
                         return true;
                     case R.id.bvProfile:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container,profileFragment).commit();
+
                         return true;
                 }
                 return false;
@@ -64,6 +86,32 @@ public class BottomNavActivity extends AppCompatActivity {
         });
 
     }
+
+
+
+
+    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new
+            ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == RESULT_OK) {
+                String data = result.getData().getStringExtra("downloadURL");
+                String plantName = result.getData().getStringExtra("plantName");
+                Log.d(TAG, "onActivityResult: data" + data);
+                Bundle args = new Bundle();
+                args.putString("downloadURl", data);
+                args.putString("plantName", plantName);
+                greenHouseFragment.setArguments(args);
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, greenHouseFragment)
+                        .commit();
+                getSupportFragmentManager().beginTransaction().detach(greenHouseFragment).commit();
+                bottomNavigationView.setSelectedItemId(R.id.bvGreenhouse);
+                getSupportFragmentManager().beginTransaction().attach(greenHouseFragment).commit();
+            }
+
+        }
+    });
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

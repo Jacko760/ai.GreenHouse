@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/gray"
+    android:background="#EFFAF6"
     tools:context=".HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -27,101 +27,90 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme" >
-            <TextView
+            <ImageView
                 android:id="@+id/tvHome"
-                android:layout_width="wrap_content"
+                android:layout_width="64dp"
+                android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/mate"
-                android:textSize="20sp"
-                android:text="Home"/>
+                android:src="@drawable/appbarlogo"/>
 
             <ImageButton
                 android:id="@+id/ibLogout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/bcc"
-                android:src="@drawable/round_login_24"
+                android:src="@drawable/powerwhite"
                 android:layout_gravity="right"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="20dp"
                 />
 
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardsearch"
-        android:layout_width="match_parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appbar"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
-        app:cardCornerRadius="5dp"
-        android:elevation="5dp">
-        <androidx.appcompat.widget.SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:queryHint="Search here"
-            android:background="@color/white"
-            />
-    </androidx.cardview.widget.CardView>
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardexploregarden"
-        android:layout_width="match_parent"
+        android:layout_width="331dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardsearch"
-        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/appbar"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="110dp"
+        android:backgroundTint="#EFFAF6"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         app:cardCornerRadius="20dp"
         android:elevation="10dp">
 
         <ImageView
+            android:id="@+id/ivexploregarden"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
             android:layout_marginHorizontal="10dp"
-            android:src="@drawable/cardexploregarden"/>
-
+            android:src="@drawable/explore"/>
 
     </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardCamera"
+
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardeads"
+        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:animateLayoutChanges="true"
+        android:focusableInTouchMode="true"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardexploregarden"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardexploregarden" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardeads"
+        android:layout_width="331dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewpager"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="280dp"
+        android:backgroundTint="#EFFAF6"
+        android:layout_marginTop="5dp"
         app:cardCornerRadius="20dp"
         android:elevation="10dp">
-        <ImageView
+
+        <com.denzcoskun.imageslider.ImageSlider
+            android:id="@+id/image_slider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:src="@drawable/cardcamera"
-           />
-    </androidx.cardview.widget.CardView>
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardCamera"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
-        app:cardCornerRadius="20dp"
-        android:elevation="10dp"
-        app:cardBackgroundColor="@color/white">
-
-
-
+            app:iss_auto_cycle="true"
+            app:iss_period="1000"
+            app:iss_delay="1000"
+            app:iss_text_align="CENTER"/>
 
     </androidx.cardview.widget.CardView>
-
-
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
 
